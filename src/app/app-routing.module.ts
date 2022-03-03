@@ -8,7 +8,8 @@ import {AuthguardGuard} from "./guards/authguard.guard";
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'imagenes',
+    
     pathMatch: 'full'
   },
   {
