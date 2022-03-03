@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginService} from "../../services/login.service";
 import {LoginModel} from "../../model/login.model";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +15,10 @@ export class LoginComponent implements OnInit {
   enviado: boolean = false;
   errorMsg!: string | null;
   isLoading: boolean = false;
-
+  
   constructor(private formBuilder: FormBuilder,
-              private loginService: LoginService) {
+              private loginService: LoginService,
+              private router: Router) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
           console.log(JSON.stringify(respuesta));
           this.isLoading = false;
           this.errorMsg = null;
+          this.router.navigate(['home']);
         }, error => {
           console.log('ERROR:' + JSON.stringify(error));
           this.errorMsg = `⚠️ ¡No se ha podido iniciar la sesión! (${error.error?.error})`
