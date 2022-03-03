@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginModel } from 'src/app/model/login.model';
-import { LoginService } from './../../services/login.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {LoginService} from "../../services/login.service";
+import {LoginModel} from "../../model/login.model";
 
 @Component({
   selector: 'app-login',
@@ -16,44 +16,47 @@ export class LoginComponent implements OnInit {
   isLoading: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
-              private loginService: LoginService) { 
+              private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
   }
 
-  /* Ejecuta la acción de LOGIN */
-  submitForm(){
+  /**
+   * Ejecuta la accion de LOGIN.
+   */
+  submitForm() {
     this.enviado = true;
 
-    //Si no es valido, me voy
-    if(!this.loginForm.valid)
-    return;
+    // Si no es valido, me voy.
+    if (!this.loginForm.valid)
+      return;
 
-    let loginModel: LoginModel = new LoginModel(this.loginForm.controls.username.value, this.loginForm.controls.password.value, '')
-    //Comienzo llamada back
+    let loginModel: LoginModel = new LoginModel(this.loginForm.controls.username.value, this.loginForm.controls.password.value, '');
+
+    // Comienzo llamada back
     this.isLoading = true;
-
     this
-    .loginService
-    .performLogin(loginModel)
-    .subscribe(respuesta => {
-      console.log(JSON.stringify(respuesta));
-      this.isLoading = false;
-      this.errorMsg = null;
-    }, error => {
-      console.log('ERROR:' + JSON.stringify(error));
-      this.errorMsg = `⚠ ¡No se ha podido iniciar la sesión! (${error.error?.error})`
-      this.isLoading = false;
-    },
-    ()=>{
-      this.isLoading = false;
-    });
-    
+      .loginService
+      .performLogin(loginModel)
+      .subscribe(
+        respuesta => {
+          console.log(JSON.stringify(respuesta));
+          this.isLoading = false;
+          this.errorMsg = null;
+        }, error => {
+          console.log('ERROR:' + JSON.stringify(error));
+          this.errorMsg = `⚠️ ¡No se ha podido iniciar la sesión! (${error.error?.error})`
+          this.isLoading = false;
+        },
+        () => {
+          this.isLoading = false;
+        });
+
   }
 
 }

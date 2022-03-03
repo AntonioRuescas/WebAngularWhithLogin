@@ -1,16 +1,14 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { UserResponseModel } from '../model/user-response.model';
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {UserResponseModel} from "../model/user-response.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  constructor(private http: HttpClient) { 
-    
-  }
+  constructor(private http: HttpClient) { }
 
   getUsers(page: number): Observable<UserResponseModel> {
     return this.http.get<UserResponseModel>('https://reqres.in/api/users', {
@@ -19,4 +17,5 @@ export class UsersService {
         .set('delay', 3),
     });
   }
+
 }
